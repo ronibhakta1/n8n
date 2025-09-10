@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
+// @ts-ignore
 import dotenv from 'dotenv';
-import v1Routes from '../server/routes/v1/index.js';
+import v1Routes from './routes/v1/index';
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ app.use(cors());
 
 app.use('/api/v1', v1Routes);
 
-app.listen(3000,()=>{
-    console.log('Server is running on port 3000');
-})
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
