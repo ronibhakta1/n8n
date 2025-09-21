@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@repo/core",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,18 +7,22 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only server/index.ts",
-    "start": "node dist/server/index.js"
+    "start": "node dist/server/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --skip-generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
-    "typescript": "^5.0.0",
+    "prisma": "6.16.0",
     "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@prisma/client": "6.16.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "cors": "^2.8.5",

@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id               Int                @id @default(autoincrement())
+  name             String
+  email            String             @unique
+  username         String?            @unique
+  password         String
+  user_credentials user_credentials[]
+}
+
+model user_credentials {
+  id      Int   @id @default(autoincrement())
+  users   users @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  title             String            @unique
+  available_actions available_actions @relation(fields: [platform_id], references: [id])
+  platform_id       Int
+  secret_key        String            @unique
+}
+
+model available_actions {
+  id               Int                @id @default(autoincrement())
+  platform_names   String             @unique
+  user_credentials user_credentials[]
+}
+
+model workflow {
+  id      Int     @id @default(autoincrement())
+  title   String
+  enabled Boolean @default(true)
+
+  nodes Node[]
+  edges Edge[]
+}
+
+model Node {
+  id        Int    @id @default(autoincrement())
+  label     String
+  positionX Float
+  positionY Float
+
+  workflow   workflow @relation(fields: [workflowId], references: [id])
+  workflowId Int
+
+  outgoingEdges Edge[] @relation("SourceNode")
+  incomingEdges Edge[] @relation("TargetNode")
+}
+
+model Edge {
+  id       Int @id @default(autoincrement())
+  sourceId Int
+  targetId Int
+
+  workflow   workflow @relation(fields: [workflowId], references: [id])
+  workflowId Int
+
+  sourceNode Node? @relation("SourceNode", fields: [sourceId], references: [id])
+  targetNode Node? @relation("TargetNode", fields: [targetId], references: [id])
+}
