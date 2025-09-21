@@ -76,8 +76,8 @@ export default function Playground() {
         <Panel position="center-left"></Panel>
         <Panel position="center-right"></Panel>
         <Controls />
-        <Background />
-        <MiniMap nodeStrokeWidth={5} />
+        <Background bgColor="#000000db"/>
+        <MiniMap nodeStrokeWidth={5} bgColor="#000000db"/>
       </ReactFlow>
     </div>
   );
